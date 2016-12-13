@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B322AB591E004BCF00024DC2 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B322AB581E004BCF00024DC2 /* SettingsTableViewController.swift */; };
+		B322AB5C1E00614300024DC2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B322AB5B1E00614300024DC2 /* UIView+Extensions.swift */; };
+		B38261611DF8F4620058BC7B /* ThingAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38261601DF8F4620058BC7B /* ThingAnnotation.swift */; };
 		B38E2CD21DDFAA3A00D45EED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E2CD11DDFAA3A00D45EED /* AppDelegate.swift */; };
 		B38E2CD41DDFAA3A00D45EED /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E2CD31DDFAA3A00D45EED /* ViewController.swift */; };
 		B38E2CD71DDFAA3A00D45EED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B38E2CD51DDFAA3A00D45EED /* Main.storyboard */; };
 		B38E2CD91DDFAA3A00D45EED /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B38E2CD81DDFAA3A00D45EED /* Assets.xcassets */; };
 		B38E2CDC1DDFAA3A00D45EED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B38E2CDA1DDFAA3A00D45EED /* LaunchScreen.storyboard */; };
 		B38E2CE71DDFAA3A00D45EED /* ThingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E2CE61DDFAA3A00D45EED /* ThingsTests.swift */; };
+		B38E2CF21DDFB37400D45EED /* AddNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E2CF11DDFB37400D45EED /* AddNoteViewController.swift */; };
+		B38E2CF41DE21B1000D45EED /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B38E2CF31DE21B1000D45EED /* NotesViewController.swift */; };
+		B38E2CFA1DE2206F00D45EED /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B38E2CF91DE2206F00D45EED /* CoreData.framework */; };
+		B38E2CFE1DE220DC00D45EED /* Things.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B38E2CFC1DE220DC00D45EED /* Things.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +33,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B322AB581E004BCF00024DC2 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		B322AB5B1E00614300024DC2 /* UIView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		B38261601DF8F4620058BC7B /* ThingAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThingAnnotation.swift; sourceTree = "<group>"; };
 		B38E2CCE1DDFAA3A00D45EED /* Things.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Things.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B38E2CD11DDFAA3A00D45EED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B38E2CD31DDFAA3A00D45EED /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +46,10 @@
 		B38E2CE21DDFAA3A00D45EED /* ThingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B38E2CE61DDFAA3A00D45EED /* ThingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingsTests.swift; sourceTree = "<group>"; };
 		B38E2CE81DDFAA3A00D45EED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B38E2CF11DDFB37400D45EED /* AddNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNoteViewController.swift; sourceTree = "<group>"; };
+		B38E2CF31DE21B1000D45EED /* NotesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
+		B38E2CF91DE2206F00D45EED /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B38E2CFD1DE220DC00D45EED /* Things.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Things.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B38E2CFA1DE2206F00D45EED /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,12 +71,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B322AB5A1E00611B00024DC2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B322AB5B1E00614300024DC2 /* UIView+Extensions.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		B38E2CC51DDFAA3A00D45EED = {
 			isa = PBXGroup;
 			children = (
 				B38E2CD01DDFAA3A00D45EED /* Things */,
 				B38E2CE51DDFAA3A00D45EED /* ThingsTests */,
 				B38E2CCF1DDFAA3A00D45EED /* Products */,
+				B38E2CF81DE2206F00D45EED /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,8 +101,11 @@
 		B38E2CD01DDFAA3A00D45EED /* Things */ = {
 			isa = PBXGroup;
 			children = (
+				B322AB5A1E00611B00024DC2 /* Extensions */,
+				B38E2CFF1DE292E700D45EED /* Views */,
+				B38E2CFB1DE2209200D45EED /* Controllers */,
+				B38E2CF51DE21F6900D45EED /* Models */,
 				B38E2CD11DDFAA3A00D45EED /* AppDelegate.swift */,
-				B38E2CD31DDFAA3A00D45EED /* ViewController.swift */,
 				B38E2CD51DDFAA3A00D45EED /* Main.storyboard */,
 				B38E2CD81DDFAA3A00D45EED /* Assets.xcassets */,
 				B38E2CDA1DDFAA3A00D45EED /* LaunchScreen.storyboard */,
@@ -94,6 +121,41 @@
 				B38E2CE81DDFAA3A00D45EED /* Info.plist */,
 			);
 			path = ThingsTests;
+			sourceTree = "<group>";
+		};
+		B38E2CF51DE21F6900D45EED /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B38E2CFC1DE220DC00D45EED /* Things.xcdatamodeld */,
+				B38261601DF8F4620058BC7B /* ThingAnnotation.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		B38E2CF81DE2206F00D45EED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B38E2CF91DE2206F00D45EED /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B38E2CFB1DE2209200D45EED /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B38E2CD31DDFAA3A00D45EED /* ViewController.swift */,
+				B38E2CF11DDFB37400D45EED /* AddNoteViewController.swift */,
+				B38E2CF31DE21B1000D45EED /* NotesViewController.swift */,
+				B322AB581E004BCF00024DC2 /* SettingsTableViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		B38E2CFF1DE292E700D45EED /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,7 +203,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Bonnected;
 				TargetAttributes = {
 					B38E2CCD1DDFAA3A00D45EED = {
@@ -201,8 +263,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B38E2CF41DE21B1000D45EED /* NotesViewController.swift in Sources */,
 				B38E2CD41DDFAA3A00D45EED /* ViewController.swift in Sources */,
+				B322AB5C1E00614300024DC2 /* UIView+Extensions.swift in Sources */,
+				B38E2CFE1DE220DC00D45EED /* Things.xcdatamodeld in Sources */,
 				B38E2CD21DDFAA3A00D45EED /* AppDelegate.swift in Sources */,
+				B38E2CF21DDFB37400D45EED /* AddNoteViewController.swift in Sources */,
+				B38261611DF8F4620058BC7B /* ThingAnnotation.swift in Sources */,
+				B322AB591E004BCF00024DC2 /* SettingsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +330,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -311,6 +380,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -410,6 +480,7 @@
 				B38E2CED1DDFAA3A00D45EED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B38E2CEE1DDFAA3A00D45EED /* Build configuration list for PBXNativeTarget "ThingsTests" */ = {
 			isa = XCConfigurationList;
@@ -418,8 +489,22 @@
 				B38E2CF01DDFAA3A00D45EED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B38E2CFC1DE220DC00D45EED /* Things.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B38E2CFD1DE220DC00D45EED /* Things.xcdatamodel */,
+			);
+			currentVersion = B38E2CFD1DE220DC00D45EED /* Things.xcdatamodel */;
+			path = Things.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B38E2CC61DDFAA3A00D45EED /* Project object */;
 }
