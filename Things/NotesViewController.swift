@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import MapKit
 
-class NotesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MKMapViewDelegate {
+class NotesViewController: UIViewController {
 	
 	@IBOutlet var notesTableView: UITableView!
 	@IBOutlet var addButton: UIButton!
@@ -21,35 +21,24 @@ class NotesViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		setupViews()
+	}
+	
+	private func setupViews() {
+		
 		notesTableView.dataSource = self
 		notesTableView.delegate = self
+		notesTableView.layer.cornerRadius = 5
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
-		//1
-		let appDelegate =
-			UIApplication.shared.delegate as! AppDelegate
-		
-		let managedContext = appDelegate.managedObjectContext
-		
-		//2
-		let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Note")
-		
-		//3
 		do {
-			let results =
-				try managedContext.fetch(fetchRequest)
-			notes = results as! [NSManagedObject]
+			self.notes = try Notes.getAll()
 			
 			notesTableView.reloadData()
 		} catch let error as NSError {
 			print("Could not fetch \(error), \(error.userInfo)")
 		}
-	}
-	
-	override func didReceiveMemoryWarning() {
-		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 	
 	@IBAction func buttonClosePressed(_ sender: UIButton) {
@@ -64,10 +53,24 @@ class NotesViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	// In a storyboard-based application, you will often want to do a little preparation before navigation
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-	// Get the new view controller using segue.destinationViewController.
-	// Pass the selected object to the new view controller.
+		
+		if segue.identifier == "noteDetailSegue" {
+			
+			// get the detail view
+			let detailView = segue.destination as! NoteDetailViewController
+			
+			// set the note property
+			let index = notesTableView.indexPathForSelectedRow?.row
+			
+			detailView.note = notes[index!] as? Note
+			
+			print(detailView.note!)
+			
+		}
 	}
-	
+}
+
+extension NotesViewController: UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as UITableViewCell
@@ -84,88 +87,44 @@ class NotesViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		return notes.count
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 		
-		let note = notes[indexPath.row] as! Note
+		let edit = UITableViewRowAction(style: .normal, title: "       ") { (action, indexPath) in
 		
-		createNoteDetailView(note: note)
-		
-	}
-	
-	func createNoteDetailView(note: Note)
-	{
-		let padding = 10
-		
-		detailView = UIView(frame: notesTableView.frame)
-		
-		let subViewWidth = Int(detailView.frame.width) - (padding * 2)
-		
-		detailView.backgroundColor = UIColor.white
-		
-		let backButton = UIButton(type: .system)
-		
-		backButton.frame = CGRect(x: padding, y: padding, width: subViewWidth, height: 44)
-		backButton.setTitle("< Back", for: .normal)
-		backButton.contentHorizontalAlignment = .left
-		
-		backButton.addTarget(self, action: #selector(backToNotes), for: .touchUpInside)
-		
-		let titleLabel = UILabel(frame: CGRect(x: padding, y: Int(backButton.frame.height) + padding, width: subViewWidth, height: 44))
-		titleLabel.text = note.title
-		titleLabel.font = UIFont.systemFont(ofSize: 20.0, weight: UIFontWeightLight)
-		
-		let textLabel = UILabel(frame: CGRect(x: padding, y: Int(titleLabel.frame.height) + padding, width: subViewWidth, height: 200))
-		textLabel.text = note.text
-		textLabel.numberOfLines = 0
-		textLabel.lineBreakMode = .byWordWrapping
-		textLabel.font = UIFont.systemFont(ofSize: 15.0, weight: UIFontWeightThin)
-		
-		let mapView = MKMapView(frame: CGRect(x: padding, y: Int(textLabel.frame.height), width: subViewWidth, height: 200))
-		
-		let latitude = CLLocationDegrees(note.latitude!)
-		let longitude = CLLocationDegrees(note.longitude!)
-		let location = CLLocation(latitude: latitude, longitude: longitude)
-		let regionRadius:CLLocationDistance = 500
-		
-		let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius * 2.0, regionRadius * 2.0)
-  
-		mapView.setRegion(coordinateRegion, animated: true)
-		mapView.isScrollEnabled = false
-		mapView.delegate = self
-		
-		let annotation = ThingAnnotation(title: note.title!, description: note.text!, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-		
-		mapView.addAnnotation(annotation)
-		
-		detailView.addSubview(backButton)
-		detailView.addSubview(titleLabel)
-		detailView.addSubview(textLabel)
-		detailView.addSubview(mapView)
-		
-		self.view.addSubview(detailView)
-	}
-	
-	func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-		if let annotation = annotation as? ThingAnnotation {
-			let identifier = "pin"
-			var view: MKPinAnnotationView
-			if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-				as? MKPinAnnotationView { // 2
-				dequeuedView.annotation = annotation
-				view = dequeuedView
-			} else {
-				// 3
-				view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-				view.canShowCallout = true
-				view.calloutOffset = CGPoint(x: -5, y: 5)
-				//view.rightCalloutAccessoryView = UIButton.withType(.DetailDisclosure) as UIView
-			}
-			return view
+			let storyboard = UIStoryboard(name: "Main", bundle: nil)
+			let addEditController = storyboard.instantiateViewController(withIdentifier: "AddNoteViewController") as! AddNoteViewController
+			let note = self.notes[indexPath.row] as! Note
+			
+			addEditController.note = note
+			addEditController.editMode = true
+			addEditController.modalPresentationStyle = .overCurrentContext
+			
+			self.present(addEditController, animated: true, completion: nil)
+			
 		}
-		return nil
+		
+		let delete = UITableViewRowAction(style: .normal, title: "       ") { (action, indexPath) in
+		
+			let note = self.notes[indexPath.row]
+			
+			do {
+				try Notes.delete(note: note)
+				self.notes.remove(at: indexPath.row)
+				tableView.deleteRows(at: [indexPath], with: .automatic)
+			} catch let error as NSError {
+				print("unable to delete: \(error)")
+			}
+			
+		}
+		
+		delete.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "delete-action"))
+		edit.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "edit-action"))
+			
+		return[delete, edit]
+		
 	}
 	
-	func backToNotes() {
-		detailView?.removeFromSuperview()
+	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return true
 	}
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import MapKit
+import Contacts
 
 class ThingAnnotation: NSObject, MKAnnotation {
 	let title: String?
@@ -20,5 +21,19 @@ class ThingAnnotation: NSObject, MKAnnotation {
 		self.coordinate = coordinate
 		
 		super.init()
+	}
+	
+	var subtitle: String? {
+		return descriptor
+	}
+	
+	func mapItem() -> MKMapItem {
+		let addressDictionary = [String(CNPostalAddressStreetKey): description]
+		let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: addressDictionary)
+		
+		let mapItem = MKMapItem(placemark: placemark)
+		mapItem.name = title
+		
+		return mapItem
 	}
 }
