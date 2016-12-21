@@ -404,7 +404,27 @@ extension ViewController: MKMapViewDelegate {
 	             calloutAccessoryControlTapped control: UIControl) {
 		let location = view.annotation as! ThingAnnotation
 		let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-		location.mapItem().openInMaps(launchOptions: launchOptions)
+		
+		openMap(fromAnnotation: location, withOptions: launchOptions)
+	}
+	
+	func openMap(fromAnnotation annotation: ThingAnnotation, withOptions options: [String: String] ) {
+		
+		if Settings.getValue(forKey: Settings.linkToGoogleMapsKey), UIApplication.shared.canOpenURL(NSURL(string:"comgooglemaps://")! as URL) {
+			
+			let coordinate = selectedLocation?.coordinate
+			let url = NSURL(string:
+				"comgooglemaps://?center=\(coordinate?.latitude),\(coordinate?.longitude)")! as URL
+			
+			UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			
+		} else {
+			
+			annotation.mapItem().openInMaps(launchOptions: options)
+			print("Can't use comgooglemaps://");
+		}
+	
+		
 	}
 	
 }

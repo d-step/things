@@ -123,7 +123,26 @@ extension NoteDetailViewController: MKMapViewDelegate {
 	             calloutAccessoryControlTapped control: UIControl) {
 		let location = view.annotation as! ThingAnnotation
 		let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-		location.mapItem().openInMaps(launchOptions: launchOptions)
+		openMap(fromAnnotation: location, withOptions: launchOptions)
+	}
+	
+	func openMap(fromAnnotation annotation: ThingAnnotation, withOptions options: [String: String] ) {
+		
+		if Settings.getValue(forKey: Settings.linkToGoogleMapsKey), UIApplication.shared.canOpenURL(NSURL(string:"comgooglemaps://")! as URL) {
+			
+			let coordinate = CLLocationCoordinate2DMake(CLLocationDegrees((note?.latitude)!), CLLocationDegrees((note?.longitude)!))
+			let url = NSURL(string:
+				"comgooglemaps://?saddr=&daddr=\(coordinate.latitude),\(coordinate.longitude)&directionsmode=driving")! as URL
+			
+			UIApplication.shared.open(url, options: [:], completionHandler: nil)
+			
+		} else {
+			
+			annotation.mapItem().openInMaps(launchOptions: options)
+			print("Can't use comgooglemaps://");
+		}
+		
+		
 	}
 	
 }

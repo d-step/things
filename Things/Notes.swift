@@ -12,8 +12,6 @@ import CoreData
 
 class Notes {
 	
-	static var results: [NSManagedObject]?
-	
 	static func getAll() throws -> [NSManagedObject] {
 		
 		//1
@@ -26,14 +24,7 @@ class Notes {
 		
 		//3
 		do {
-			if self.results != nil {
-				return self.results!
-			} else {
-				self.results = try managedContext.fetch(fetchRequest) as? [NSManagedObject]
-				
-				return self.results!
-			}
-			
+			return try managedContext.fetch(fetchRequest) as! [NSManagedObject]
 		} catch let error as NSError {
 			print("Could not fetch \(error), \(error.userInfo)")
 		}

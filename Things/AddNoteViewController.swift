@@ -122,7 +122,6 @@ class AddNoteViewController: UIViewController {
 				
 			}
 			
-			
 			self.dismiss(animated: true, completion: nil)
 		}
 		else {

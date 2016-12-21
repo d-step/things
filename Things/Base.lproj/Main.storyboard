@@ -209,6 +209,13 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Things" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q3T-Kw-yQc">
+                                <rect key="frame" x="20" y="35" width="173" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="23"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="0.78322988010000005" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -226,7 +233,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VMz-aK-ZrC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1051" y="955"/>
+            <point key="canvasLocation" x="1050.7246376811595" y="954.61956521739137"/>
         </scene>
         <!--Note Detail View Controller-->
         <scene sceneID="68n-YS-bFS">
@@ -480,7 +487,7 @@
                         <sections>
                             <tableViewSection headerTitle="" footerTitle="Toggles the action bar to the left side if on or to the right side if off." id="xmp-jq-jAz">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="bRe-bO-mC6" customClass="SettingsTableViewCell" customModule="Things" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="bRe-bO-mC6" customClass="SettingsTableViewCell" customModule="Things" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="35" width="374" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bRe-bO-mC6" id="uUi-cN-ijn">
@@ -488,13 +495,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2jn-Fw-pFQ">
-                                                    <rect key="frame" x="279" y="14" width="51" height="31"/>
+                                                    <rect key="frame" x="310" y="14" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="leftHandModeChanged:" destination="nWd-yF-uwF" eventType="valueChanged" id="pgF-um-re4"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left-hand Mode" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="do5-TS-JSw">
-                                                    <rect key="frame" x="15" y="18" width="243" height="24"/>
+                                                    <rect key="frame" x="15" y="18" width="274" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -514,7 +521,7 @@
                             <tableViewSection id="EHc-x9-lxr">
                                 <string key="footerTitle">Selecting this option will open links in Google Maps rather than Apple Maps. The application will still use Apple Maps to display location and perform searches.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="ebg-dv-nl7" customClass="SettingsTableViewCell" customModule="Things" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="ebg-dv-nl7" customClass="SettingsTableViewCell" customModule="Things" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="159" width="374" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ebg-dv-nl7" id="KPA-Ec-mew">
@@ -522,13 +529,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Xd1-Ld-DWt">
-                                                    <rect key="frame" x="279" y="14" width="51" height="31"/>
+                                                    <rect key="frame" x="310" y="14" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="linkToGoogleMapsChanged:" destination="nWd-yF-uwF" eventType="valueChanged" id="UgF-Kc-aAi"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Link to Google Maps" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DS6-GK-1GZ">
-                                                    <rect key="frame" x="15" y="18" width="243" height="24"/>
+                                                    <rect key="frame" x="15" y="18" width="274" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -547,7 +554,7 @@
                             </tableViewSection>
                             <tableViewSection footerTitle="Makes the default setting for all Things private. You can still override this during creation, if needed." id="XQi-FZ-JRX">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="nPn-G6-1uj" customClass="SettingsTableViewCell" customModule="Things" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="nPn-G6-1uj" customClass="SettingsTableViewCell" customModule="Things" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="299" width="374" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nPn-G6-1uj" id="paT-5K-pOd">
@@ -555,13 +562,13 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cus-oO-uRI">
-                                                    <rect key="frame" x="279" y="14" width="51" height="31"/>
+                                                    <rect key="frame" x="310" y="14" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="privateDefaultChanged:" destination="nWd-yF-uwF" eventType="valueChanged" id="gZA-cL-2ah"/>
                                                     </connections>
                                                 </switch>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Private by Default" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IWO-uB-85d">
-                                                    <rect key="frame" x="15" y="18" width="243" height="24"/>
+                                                    <rect key="frame" x="15" y="18" width="274" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -626,6 +633,13 @@
                                     <action selector="buttonClosePressed:" destination="3Bs-7I-Obs" eventType="touchUpInside" id="jXG-RH-n98"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uam-7u-cjt">
+                                <rect key="frame" x="20" y="32" width="173" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="23"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="0.78322988010000005" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -769,6 +783,13 @@
                                     <action selector="buttonClosePressed:" destination="gSZ-Fl-VXF" eventType="touchUpInside" id="Ljs-el-hDm"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Add Item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLc-MC-npf">
+                                <rect key="frame" x="20" y="31" width="173" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="23"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="0.78322988010000005" colorSpace="calibratedRGB"/>
                         <constraints>
