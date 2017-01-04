@@ -24,8 +24,6 @@ public extension NSDate {
 	A string representation using short date and time style.
 	*/
 	func toString(formatter:String) -> String {
-		print(self)
-		
 		let date = self
 		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = formatter

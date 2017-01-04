@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class NoteDetailViewController: UIViewController {
+class NoteDetailViewController: UIViewController, ThingDisplaying {
 	
 	var note: Note?
 	

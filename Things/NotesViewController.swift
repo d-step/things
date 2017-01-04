@@ -73,12 +73,19 @@ class NotesViewController: UIViewController {
 extension NotesViewController: UITableViewDelegate, UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as UITableViewCell
+		let cell = tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! ThingItemTableViewCell
 		
 		let note = notes[indexPath.row] as! Note
 		
 		cell.textLabel?.text = note.title
-		cell.detailTextLabel?.text = note.text
+		
+		if !note.isPrivate {
+			cell.imageView?.isHidden = true
+			//cell.imageView?.image = #imageLiteral(resourceName: "transparent")
+			cell.detailTextLabel?.text = note.text
+		} else {
+			cell.detailTextLabel?.text = "Unlock to view detail"
+		}
 		
 		return cell
 	}
@@ -124,7 +131,47 @@ extension NotesViewController: UITableViewDelegate, UITableViewDataSource {
 		
 	}
 	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		
+		if let note = notes[indexPath.row] as? Note {
+			
+			let storyboard = UIStoryboard(name: "Main", bundle: nil)
+			
+			if note.isPrivate {
+				let destinationVC = storyboard.instantiateViewController(withIdentifier: "AuthContainerViewController") as! AuthContainerViewController
+				
+				destinationVC.note = note
+				
+				destinationVC.modalPresentationStyle = .overCurrentContext
+				
+				self.present(destinationVC, animated: true, completion: nil)
+			} else {
+				let destinationVC = storyboard.instantiateViewController(withIdentifier: "DetailViewController") as! NoteDetailViewController
+				
+				destinationVC.note = note
+				
+				destinationVC.modalPresentationStyle = .overCurrentContext
+				
+				self.present(destinationVC, animated: true, completion: nil)
+			}
+			
+		}
+		
+	}
+	
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return true
+	}
+	
+	func redirectToAuthenticate(note: Note) {
+		
+			// open add view
+			let storyboard = UIStoryboard(name: "Main", bundle: nil)
+			let authController = storyboard.instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+			
+			authController.modalPresentationStyle = .overCurrentContext
+			
+			self.present(authController, animated: true, completion: nil)
+		
 	}
 }

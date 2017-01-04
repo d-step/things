@@ -14,16 +14,18 @@ class ViewController: UIViewController {
 	
 	@IBOutlet var mapView: MKMapView!
 	@IBOutlet var buttonAdd: UIButton!
+	@IBOutlet var buttonSettings: UIButton!
 	@IBOutlet var buttonCurrentLocation: UIButton!
 	@IBOutlet var buttonView: UIView!
 	@IBOutlet var searchField: UITextField!
-	@IBOutlet var actionBar: UIView!
 	
 	var cancelSearchButton: UIButton?
 	var searchBackground: UIView?
 	var resultsTableView: UITableView?
 	var isSearching: Bool = false
-	var searchAnnotation: ThingAnnotation?
+	
+	var mapAnnotation: MKAnnotation?
+	var droppedPin: AddThingAnnotation?
 	
 	var matchingItems: [MKMapItem] = []
 	
@@ -35,7 +37,8 @@ class ViewController: UIViewController {
 	var locationManager = CLLocationManager()
 	var currentLocation: CLLocation?
 	var selectedLocation: CLLocation?
-	var regionRadius: CLLocationDistance = 750
+	var regionRadius: CLLocationDistance = 500
+	var selectedFromSearch: Bool = false
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -52,7 +55,7 @@ class ViewController: UIViewController {
 	
 	func setupActionBar() {
 		
-		let frame = actionBar.frame
+		let frame = buttonView.frame
 		
 		let y = frame.origin.y
 		let width = frame.width
@@ -63,20 +66,11 @@ class ViewController: UIViewController {
 			x = 0
 		}
 		
-		actionBar.frame = CGRect(x: x, y: y, width: width, height: height)
+		buttonView.frame = CGRect(x: x, y: y, width: width, height: height)
 
 	}
 	
 	private func setupViews() {
-		
-		// add pan gesture to detect when the map moves
-		let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.didDragMap(_:)))
-		panGesture.delegate = self
-		
-		// override weird auto-layout in view
-		mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
-		mapView.delegate = self
-		mapView.addGestureRecognizer(panGesture)
 		
 		buttonView.blur(style: .regular)
 		
@@ -88,6 +82,8 @@ class ViewController: UIViewController {
 		searchField.delegate = self
 		
 		searchWidth = searchField.frame.width
+		
+		buttonSettings.imageView?.contentMode = .center
 	}
 	
 	private func setupLocation() {
@@ -118,15 +114,16 @@ class ViewController: UIViewController {
 		mapView.setRegion(coordinateRegion, animated: true)
 	}
 	
-	func didDragMap(_ sender: UIGestureRecognizer) {
+	func didTapEmptySearchBackground(_ sender: UITapGestureRecognizer) {
+		
 		if sender.state == .ended {
 			
-			// change current location image
-			buttonCurrentLocation.setImage(#imageLiteral(resourceName: "location"), for: .normal)
+			selectedFromSearch = false
 			
-			trackCurrentLocation = false
-			locationManager.stopUpdatingLocation()
+			removeSearchViews()
+			
 		}
+		
 	}
 	
 	@IBAction func buttonCurrentLocationPressed(_ sender: UIButton) {
@@ -157,6 +154,7 @@ class ViewController: UIViewController {
 		
 		if !isSearching {
 			isSearching = true
+			selectedFromSearch = false
 			
 			// create search view
 			createBackgroundView()
@@ -191,11 +189,13 @@ class ViewController: UIViewController {
 	
 	private func createBackgroundView() {
 		
-		let frame = self.view.frame
-		
-		self.searchBackground = UIView(frame: frame)
+		self.searchBackground = UIView(frame: self.view.frame)
 		
 		self.searchBackground!.backgroundColor = #colorLiteral(red: 0.222715736, green: 0.222715736, blue: 0.222715736, alpha: 0.5906731592)
+		
+		let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapEmptySearchBackground(_:)))
+		
+		self.searchBackground?.addGestureRecognizer(tapGesture)
 		
 		self.view.addSubview(searchBackground!)
 		self.view.bringSubview(toFront: searchField)
@@ -230,12 +230,17 @@ class ViewController: UIViewController {
 		self.resultsTableView = nil
 		self.cancelSearchButton = nil
 		
-		self.searchField.text = ""
+		// remove the text from the search field if an item was not selected
+		// conversely, if an item was selected, keep the text in the field
+		if !selectedFromSearch {
+			self.searchField.text = ""
+		}
 		
 		self.resignFirstResponder()
 		self.view.endEditing(true)
 		
 	}
+	
 	@IBAction func textFieldChanged(_ sender: Any) {
 		
 		if let text = searchField.text, !text.isEmpty {
@@ -307,8 +312,18 @@ extension ViewController: MKMapViewDelegate {
 	
 	func setupMap() {
 		
+		// add pan gesture to detect when the map moves
+		let panGesture = UIPanGestureRecognizer(target: self, action: #selector(self.didDragMap(_:)))
+		panGesture.delegate = self
+		
+		let holdGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.didLongPressMap(_:)))
+		holdGesture.delegate = self
+		
 		// set frame
 		mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+		mapView.delegate = self
+		mapView.addGestureRecognizer(panGesture)
+		mapView.addGestureRecognizer(holdGesture)
 		
 		do {
 			let notes = try Notes.getAll() as! [Note]
@@ -328,6 +343,40 @@ extension ViewController: MKMapViewDelegate {
 			
 		} catch let error as NSError {
 			print(error)
+		}
+		
+	}
+	
+	func didDragMap(_ sender: UIGestureRecognizer) {
+		if sender.state == .ended {
+			
+			// change current location image
+			buttonCurrentLocation.setImage(#imageLiteral(resourceName: "location"), for: .normal)
+			
+			trackCurrentLocation = false
+			locationManager.stopUpdatingLocation()
+		}
+	}
+	
+	func didLongPressMap(_ sender: UILongPressGestureRecognizer) {
+		
+		if sender.state == .began {
+			
+			let pressPoint = sender.location(in: mapView)
+			let coordinate = mapView.convert(pressPoint, toCoordinateFrom: self.view)
+			
+			// remove the current dropped pin
+			if let pin = droppedPin {
+				
+				mapView.removeAnnotation(pin)
+				
+			}
+			
+			// add annotation allowing user to add a note at that location
+			droppedPin = AddThingAnnotation(title: "Add New Note Here", coordinate: coordinate)
+			
+			mapView.addAnnotation(droppedPin!)
+			
 		}
 		
 	}
@@ -397,15 +446,51 @@ extension ViewController: MKMapViewDelegate {
 			
 			return view
 		}
+		
+		if let annotation = annotation as? AddThingAnnotation {
+			
+			let identifier = "addedPin"
+			var view: MKPinAnnotationView
+			
+			if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView { // 2
+				dequeuedView.annotation = annotation
+				view = dequeuedView
+			} else {
+				// 3
+				view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+				view.canShowCallout = true
+				view.rightCalloutAccessoryView = UIButton(type: .contactAdd) as UIView
+			}
+			
+			return view
+			
+		}
+		
 		return nil
 	}
 	
 	func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
 	             calloutAccessoryControlTapped control: UIControl) {
-		let location = view.annotation as! ThingAnnotation
-		let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
 		
-		openMap(fromAnnotation: location, withOptions: launchOptions)
+		if let annotation = view.annotation as? ThingAnnotation {
+		
+			let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+		
+			openMap(fromAnnotation: annotation, withOptions: launchOptions)
+		}
+		
+		if let annotation = view.annotation as? AddThingAnnotation {
+			
+			// open add view
+			let storyboard = UIStoryboard(name: "Main", bundle: nil)
+			let addEditController = storyboard.instantiateViewController(withIdentifier: "AddNoteViewController") as! AddNoteViewController
+			
+			addEditController.modalPresentationStyle = .overCurrentContext
+			addEditController.location = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+			
+			self.present(addEditController, animated: true, completion: nil)
+			
+		}
 	}
 	
 	func openMap(fromAnnotation annotation: ThingAnnotation, withOptions options: [String: String] ) {
@@ -452,7 +537,8 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		
 		let selectedItem = matchingItems[indexPath.row].placemark
-	
+		
+		self.selectedFromSearch = true
 		self.regionRadius = 100
 		
 		centerMapOnLocation(location: selectedItem.location!)
@@ -469,13 +555,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 	
 	func addAnnotation(fromPlacemark: MKPlacemark) {
 		
-		if searchAnnotation != nil {
-			mapView.removeAnnotation(searchAnnotation!)
+		if mapAnnotation != nil {
+			mapView.removeAnnotation(mapAnnotation!)
 		}
 		
-		searchAnnotation = ThingAnnotation(title: fromPlacemark.name!, description: getAddressString(fromPlacemark: fromPlacemark)!, coordinate: fromPlacemark.coordinate)
+		mapAnnotation = ThingAnnotation(title: fromPlacemark.name!, description: getAddressString(fromPlacemark: fromPlacemark)!, coordinate: fromPlacemark.coordinate)
 		
-		mapView.addAnnotation(searchAnnotation!)
+		mapView.addAnnotation(mapAnnotation!)
 	}
 	
 	func getAddressString(fromPlacemark: MKPlacemark) -> String? {

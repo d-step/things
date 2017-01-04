@@ -13,6 +13,8 @@ class Settings {
 	static let leftHandModeKey = "leftHandMode"
 	static let linkToGoogleMapsKey = "linkToGoogleMaps"
 	static let privateDefaultKey = "privateDefault"
+	static let enableTouchIdKey = "enableTouchId"
+	static let touchIdSetupKey = "touchIdSetup"
 	
 	static let defaults: UserDefaults = .standard
 	

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import MapKit
 
-class AddNoteViewController: UIViewController {
+class AddNoteViewController: UIViewController, ThingDisplaying {
 	@IBOutlet var noteText: UITextView!
 	@IBOutlet var switchPrivate: UISwitch!
 	@IBOutlet var titleView: UITextView!
@@ -51,6 +51,8 @@ class AddNoteViewController: UIViewController {
 			setupForEdit()
 			
 		} else if self.location != nil {
+			
+			switchPrivate.isOn = Settings.getValue(forKey: Settings.privateDefaultKey)
 			
 			setupMap(withCoordinate: location!.coordinate)
 		
